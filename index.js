@@ -6,8 +6,8 @@ const morgan = require('morgan');
 
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
-// const {dbConnect} = require('./db-knex');
-const {router: usersRouter} = require('./users');
+const {router: userRouter} = require('./users');
+const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
 
 const app = express();
 
@@ -22,6 +22,11 @@ app.use(
     origin: CLIENT_ORIGIN
   })
 );
+passport.use(localStrategy);
+passport.use(jwtStrategy);
+app.use('/users/', userRouter);
+app.use('/auth/', authRouter);
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 app.use('/api/users', usersRouter);
 
