@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 module.exports = {
   PORT: process.env.PORT || 8080,
@@ -10,4 +10,4 @@ module.exports = {
     process.env.TEST_DATABASE_URL ||
     'mongodb://localhost/thinkful-backend-test',
   JWT_SECRET: process.env.JWT_SECRET
-}
+};
