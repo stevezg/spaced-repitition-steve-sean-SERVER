@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
 const {router: userRouter} = require('./users');
@@ -24,8 +25,8 @@ app.use(
 );
 passport.use(localStrategy);
 passport.use(jwtStrategy);
-const jwtAuth = passport.authenticate('jwt', { session: false });
 
+app.use(bodyParser.json());
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 

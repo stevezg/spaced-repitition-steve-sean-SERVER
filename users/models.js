@@ -30,4 +30,4 @@ userSchema.statics.hashPassword = function(incomingPassword) {
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+module.exports = {User};
