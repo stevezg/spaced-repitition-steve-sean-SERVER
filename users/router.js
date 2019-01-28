@@ -43,6 +43,23 @@ router.post('/', (req, res, next) => {
     message: 'Field too small',
     location: tooLargeField
   });
+
+  const {username, password} = req.body;
+  return User.find({username}).countDocuments()
+    .then(count => {
+      if (count > 0) return Promise.reject({
+        code: 422,
+        reason: 'ValidationError',
+        message: 'Username already exists',
+        location: 'username'
+      });
+      return User.hashPassword(password);
+    }).then(hash => User.create({username, password: hash}))
+    .then(user => res.status(201).json(user))
+    .catch(err => {
+      if (err.reason === 'ValidationError') return res.status(err.code).json(err);
+      return res.status(500).json({code: 500, message: 'Internal Server Error'});
+    });
 });
 
 module.exports = {router};
