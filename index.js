@@ -9,6 +9,7 @@ const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
 const {router: userRouter} = require('./users');
 const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+const {router: wordRouter} = require('./words');
 
 const app = express()
 
@@ -29,6 +30,7 @@ passport.use(jwtStrategy);
 app.use(bodyParser.json());
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/word', wordRouter);
 
 function runServer(port = PORT) {
   const server = app
