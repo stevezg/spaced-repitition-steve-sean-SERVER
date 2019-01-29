@@ -1,12 +1,10 @@
 'use strict';
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const {data} = require('../words/sampleData');
 
 const userSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
-  password: { type: String, required: true },
-  words: {type: Object, default: data}
+  password: { type: String, required: true }
 });
 
 // This is like using a serialize method
