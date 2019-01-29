@@ -1,4 +1,5 @@
 'use strict';
+const mongoose = require('mongoose');
 const {Word} = require('./models');
 
 const data = [
@@ -9,6 +10,9 @@ const data = [
   {word: 'Guten Abend', translation: 'good evening'},
   {word: 'Gute Nacht', translation: 'good night'}
 ];
-Word.insertMany(data)
-  .then(() => console.log('success'))
-  .catch(err => console.log(err));
+// console.log('we got here');
+// Word.insertMany(data)
+//   .then(() => console.log('success'))
+//   .catch(err => console.log(err));
+
+module.exports = {data};
