@@ -10,5 +10,5 @@ const data = [
   {word: 'Gute Nacht', translation: 'good night'}
 ];
 Word.insertMany(data)
-  .then(res => console.log('success'))
+  .then(() => console.log('success'))
   .catch(err => console.log(err));
