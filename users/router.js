@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/', (req, res, next) => {
   const requiredFields = ['username', 'password'];
+  console.log(req.body);
   const missingField = requiredFields.find(field => !(field in req.body));
   if (missingField) return res.status(422).json({
     code: 422,
