@@ -1,12 +1,10 @@
 'use strict';
 const express = require('express');
 const {User} = require('./models');
-const {Word} = require('../words');
 const router = express.Router();
 
 router.post('/', (req, res, next) => {
   const requiredFields = ['username', 'password'];
-  console.log(req.body);
   const missingField = requiredFields.find(field => !(field in req.body));
   if (missingField) return res.status(422).json({
     code: 422,
@@ -47,12 +45,7 @@ router.post('/', (req, res, next) => {
   });
 
   const {username, password} = req.body;
-  let words;
-  return Word.find()
-    .then(_words => {
-      words = _words.map(word => ({word: word.id, score: 0}));
-      return User.find({username}).countDocuments();
-    })
+  return User.find({username}).countDocuments()
     .then(count => {
       if (count > 0) return Promise.reject({
         code: 422,
@@ -61,7 +54,7 @@ router.post('/', (req, res, next) => {
         location: 'username'
       });
       return User.hashPassword(password);
-    }).then(hash => User.create({username, password: hash, words}))
+    }).then(hash => User.create({username, password: hash}))
     .then(user => res.status(201).json(user))
     .catch(err => {
       if (err.reason === 'ValidationError') return res.status(err.code).json(err);
