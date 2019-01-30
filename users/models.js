@@ -5,7 +5,8 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  words: [{word: {type: mongoose.Schema.Types.ObjectId, ref: 'Word'}, score: Number}]
+  words: [{_id: mongoose.Schema.Types.ObjectId, word: String, translation: String, m: Number, next: Number}],
+  head: {type: Number, default: 0}
 });
 
 // This is like using a serialize method

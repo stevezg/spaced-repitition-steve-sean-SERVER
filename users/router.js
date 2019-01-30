@@ -1,12 +1,10 @@
 'use strict';
 const express = require('express');
 const {User} = require('./models');
-const {Word} = require('../words');
 const router = express.Router();
 
 router.post('/', (req, res, next) => {
   const requiredFields = ['username', 'password'];
-  console.log(req.body);
   const missingField = requiredFields.find(field => !(field in req.body));
   if (missingField) return res.status(422).json({
     code: 422,
@@ -47,12 +45,15 @@ router.post('/', (req, res, next) => {
   });
 
   const {username, password} = req.body;
-  let words;
-  return Word.find()
-    .then(_words => {
-      words = _words.map(word => ({word: word.id, score: 0}));
-      return User.find({username}).countDocuments();
-    })
+  const words = [
+    {word: 'Hallo', translation: 'hello', m: 1, next: 1},
+    {word: 'Tschüss', translation: 'bye', m: 1, next: 2},
+    {word: 'Guten Tag', translation: 'good day', m: 1, next: 3},
+    {word: 'Guten Morgen', translation: 'good morning', m: 1, next: 4},
+    {word: 'Guten Abend', translation: 'good evening', m: 1, next: 5},
+    {word: 'Gute Nacht', translation: 'good night', m: 1, next: 6}
+  ];
+  return User.find({username}).countDocuments()
     .then(count => {
       if (count > 0) return Promise.reject({
         code: 422,
