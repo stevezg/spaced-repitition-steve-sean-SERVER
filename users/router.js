@@ -45,6 +45,14 @@ router.post('/', (req, res, next) => {
   });
 
   const {username, password} = req.body;
+  const words = [
+    {word: 'Hallo', translation: 'hello', m: 1, next: 1},
+    {word: 'Tschüss', translation: 'bye', m: 1, next: 2},
+    {word: 'Guten Tag', translation: 'good day', m: 1, next: 3},
+    {word: 'Guten Morgen', translation: 'good morning', m: 1, next: 4},
+    {word: 'Guten Abend', translation: 'good evening', m: 1, next: 5},
+    {word: 'Gute Nacht', translation: 'good night', m: 1, next: 6}
+  ];
   return User.find({username}).countDocuments()
     .then(count => {
       if (count > 0) return Promise.reject({
@@ -54,7 +62,7 @@ router.post('/', (req, res, next) => {
         location: 'username'
       });
       return User.hashPassword(password);
-    }).then(hash => User.create({username, password: hash}))
+    }).then(hash => User.create({username, password: hash, words}))
     .then(user => res.status(201).json(user))
     .catch(err => {
       if (err.reason === 'ValidationError') return res.status(err.code).json(err);
