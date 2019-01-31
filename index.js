@@ -21,7 +21,7 @@ app.use(
 
 app.use(
   cors({
-    origin: proccess.env.CLIENT_ORIGIN
+    origin: CLIENT_ORIGIN
   })
 )
 passport.use(localStrategy)
