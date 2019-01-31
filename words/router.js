@@ -15,6 +15,22 @@ router.get('/', (req, res, next) => {
     }).catch(err => next(err));
 });
 
+router.get('/progress', (req, res, next) => {
+  const userId = req.user.id;
+  User.findById(userId)
+    .then(user => {
+      if (user) return user.toJSON();
+      else next();
+    }).then(user => {
+      let countCompleted = 0;
+      user.words.forEach(word => {
+        if (word.m >= 8) countCompleted++;
+      });
+      return res.json({countCompleted, countTotal: user.words.length});
+    })
+    .catch(err => next(err));
+});
+
 router.put('/', (req, res, next) => {
   const userId = req.user.id;
   const newM = req.body.m;
@@ -23,7 +39,7 @@ router.put('/', (req, res, next) => {
       if (user) return user.toJSON();
       else next();
     }).then(user => {
-      console.log(user);
+      // console.log(user);
       const currentHead = user.head; // save the value of the current head
       const currentNode = user.words[currentHead]; // save the node you just answered
       currentNode.m = newM;
