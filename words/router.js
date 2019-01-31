@@ -26,6 +26,7 @@ router.put('/', (req, res, next) => {
       console.log(user);
       const currentHead = user.head; // save the value of the current head
       const currentNode = user.words[currentHead]; // save the node you just answered
+      currentNode.m = newM;
       
       user.head = currentNode.next; // change the current head to whatever answered node's next pointer is
 
